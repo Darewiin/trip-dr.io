@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un viaje orgánico con gente orgánica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF8F1;
+    --bg-soft:#F1EBDB;
+    --ink:#1B2B27;
+    --ink-dim:#66786F;
+    --line:#E3DAC3;
+    --teal:#167D6F;
+    --teal-soft:rgba(22,125,111,0.09);
+    --coral:#FF6B47;
+    --card:#FFFFFF;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+  }
+
+  p{margin:0;}
+  a{color:inherit;}
+  ul{margin:0;}
+  button{font-family:'Work Sans', sans-serif;}
+
+  input[type="number"]{font-family:'Work Sans', sans-serif;}
+
+  /* ---------- NAV ---------- */
+  .topnav{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(251,248,241,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    gap:1.4rem;
+    padding:.9rem 1.5rem;
+    font-size:.87rem;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  .topnav a{
+    color:var(--ink-dim);
+    text-decoration:none;
+  }
+  .topnav a:hover, .topnav a:focus-visible{color:var(--teal);}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:4.5rem 1.5rem 2.5rem;}
+  .hero-inner{
+    max-width:720px;
+    margin:0 auto;
+    opacity:0;
+    animation:rise .9s ease-out forwards;
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(12px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .kicker{
+    font-size:.92rem;
+    color:var(--teal);
+    margin-bottom:1rem;
+  }
+  .hero h1{
+    font-size:clamp(2rem, 5vw, 3.1rem);
+    line-height:1.15;
+    max-width:15ch;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--coral);
+  }
+  .hero-sub{
+    margin-top:1.3rem;
+    max-width:52ch;
+    color:var(--ink-dim);
+    font-size:1.02rem;
+  }
+  .route{
+    list-style:none;
+    display:flex;
+    gap:.6rem;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:0;
+    margin:1.8rem 0 0;
+    font-size:.88rem;
+    color:var(--ink-dim);
+  }
+  .route li{white-space:nowrap;}
+  .route li:not(:last-child)::after{
+    content:"→";
+    margin-left:.6rem;
+    color:var(--teal);
+  }
+
+  .wave{
+    display:block;
+    width:100%;
+    height:auto;
+    margin-top:2.5rem;
+    opacity:.55;
+  }
+
+  section{padding:4rem 1.5rem;}
+  section.section-alt{background:var(--bg-soft);}
+
+  .section-inner{max-width:900px; margin:0 auto;}
+  .section-head{max-width:56ch; margin-bottom:2.4rem;}
+  .section-head h2{font-size:1.8rem; margin-bottom:.6rem;}
+  .section-head p{color:var(--ink-dim);}
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{position:relative; padding-left:2.6rem;}
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:.95rem;
+    top:.4rem;
+    bottom:2.2rem;
+    width:2px;
+    background:var(--line);
+  }
+  .day{position:relative; margin-bottom:3rem;}
+  .day:last-child{margin-bottom:0;}
+  .day-marker{
+    position:absolute;
+    left:-2.6rem;
+    top:.15rem;
+    width:2.1rem;
+    height:2.1rem;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    border:2px solid var(--teal);
+    font-family:'Fraunces', serif;
+    font-size:.72rem;
+    font-weight:600;
+    color:var(--teal);
+  }
+  .leg-label{
+    font-size:.78rem;
+    color:var(--ink-dim);
+    margin-bottom:.3rem;
+  }
+  .day-content h3{font-size:1.35rem; margin-bottom:.9rem;}
+  .stops{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.85rem;}
+  .stops li{display:grid; grid-template-columns:84px 1fr; gap:1rem;}
+  .stops .time{font-size:.8rem; color:var(--ink-dim); padding-top:.15rem;}
+  .stops strong{display:block; font-weight:600; margin-bottom:.15rem;}
+  .stops p{color:var(--ink-dim); font-size:.94rem; display:inline;}
+  .chip{
+    display:inline-block;
+    margin-left:.4rem;
+    padding:.1rem .55rem;
+    border-radius:99px;
+    background:var(--teal-soft);
+    color:var(--teal);
+    font-size:.77rem;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .chip.excluded{background:var(--line); color:var(--ink-dim); font-weight:500;}
+
+  /* ---------- SEASON ---------- */
+  .season-toggle{
+    display:flex;
+    gap:.6rem;
+    flex-wrap:wrap;
+    margin-bottom:2rem;
+  }
+  .season-btn{
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink-dim);
+    padding:.65rem 1.1rem;
+    border-radius:99px;
+    font-size:.9rem;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .season-btn:hover{border-color:var(--teal);}
+  .season-btn.active{
+    background:var(--teal);
+    border-color:var(--teal);
+    color:#fff;
+  }
+  .season-panel{display:none;}
+  .season-panel.active{display:block;}
+  .season-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:1.8rem 1.9rem;
+  }
+  .season-meta{
+    display:flex;
+    gap:1.6rem;
+    flex-wrap:wrap;
+    margin-bottom:1.2rem;
+    padding-bottom:1.2rem;
+    border-bottom:1px solid var(--line);
+  }
+  .season-meta div span{
+    display:block;
+  }
+  .season-meta .val{
+    font-family:'Fraunces', serif;
+    font-size:1.15rem;
+  }
+  .season-meta .lbl{
+    font-size:.78rem;
+    color:var(--ink-dim);
+    margin-top:.1rem;
+  }
+  .season-card h4{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:.95rem;
+    margin:1.1rem 0 .6rem;
+  }
+  .season-card ul{
+    list-style:none;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:.5rem;
+  }
+  .season-card li{
+    font-size:.93rem;
+    color:var(--ink-dim);
+    padding-left:1rem;
+    position:relative;
+  }
+  .season-card li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--teal);
+  }
+  .season-note{
+    margin-top:1.4rem;
+    font-size:.85rem;
+    color:var(--ink-dim);
+  }
+
+  /* ---------- BUDGET ---------- */
+  .budget-layout{display:grid; grid-template-columns:1.5fr 1fr; gap:2.5rem; align-items:start;}
+  .people-control{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:1.1rem 1.3rem;
+    border-radius:10px;
+    margin-bottom:2rem;
+  }
+  .people-control label{font-weight:600; font-size:.95rem;}
+  .people-control input{
+    width:5rem;
+    font-size:1.1rem;
+    padding:.4rem .6rem;
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--bg);
+    color:var(--ink);
+  }
+  .people-control .hint{color:var(--ink-dim); font-size:.85rem;}
+
+  .budget-category{margin-bottom:2.1rem;}
+  .budget-category-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-bottom:1px solid var(--line);
+    padding-bottom:.5rem;
+    margin-bottom:.9rem;
+  }
+  .budget-category-head h3{font-size:1.1rem;}
+  .budget-category-head .subtotal{font-size:.9rem; color:var(--ink-dim);}
+  .budget-item{
+    display:grid;
+    grid-template-columns:auto 1fr auto auto auto;
+    gap:.9rem;
+    align-items:center;
+    padding:.6rem 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .budget-item:last-child{border-bottom:none;}
+  .budget-item input[type="checkbox"]{width:1.1rem; height:1.1rem; accent-color:var(--teal);}
+  .budget-item .item-label{font-size:.94rem;}
+  .budget-item .item-label strong{display:block; font-weight:600;}
+  .budget-item .item-label span.note{color:var(--ink-dim); font-size:.81rem;}
+  .budget-item .amount-wrap{display:flex; align-items:center; gap:.25rem; white-space:nowrap;}
+  .budget-item .amount-wrap span{color:var(--ink-dim);}
+  .budget-item input[type="number"]{
+    width:5rem;
+    padding:.3rem .4rem;
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--card);
+    color:var(--ink);
+  }
+  .budget-item .mode-tag{font-size:.75rem; color:var(--ink-dim); white-space:nowrap; justify-self:end;}
+  .budget-item .row-subtotal{
+    font-size:.9rem;
+    font-weight:600;
+    color:var(--teal);
+    white-space:nowrap;
+    justify-self:end;
+    min-width:5.5rem;
+    text-align:right;
+  }
+  .budget-item.is-excluded .item-label, .budget-item.is-excluded .amount-wrap{opacity:.45;}
+
+  .summary-card{
+    position:sticky;
+    top:4.5rem;
+    background:var(--card);
+    border:1.5px solid var(--teal);
+    border-radius:14px;
+    padding:2rem 1.8rem;
+  }
+  .summary-card h3{font-size:1.05rem; margin-bottom:1.3rem;}
+  .summary-total{margin-bottom:1.3rem;}
+  .summary-total .amount{
+    font-family:'Fraunces', serif;
+    font-size:2.4rem;
+    color:var(--coral);
+    line-height:1.1;
+  }
+  .summary-total .label{font-size:.84rem; color:var(--ink-dim); margin-top:.2rem;}
+  .summary-group{
+    font-size:.94rem;
+    color:var(--ink-dim);
+    padding-top:1rem;
+    border-top:1px solid var(--line);
+    margin-bottom:1.3rem;
+  }
+  .summary-group strong{color:var(--ink);}
+  .bars{display:flex; flex-direction:column; gap:.7rem;}
+  .bar-row .bar-label{display:flex; justify-content:space-between; font-size:.79rem; color:var(--ink-dim); margin-bottom:.25rem;}
+  .bar-track{height:6px; background:var(--line); border-radius:99px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--teal); border-radius:99px; transition:width .25s ease;}
+  .summary-note{margin-top:1.3rem; font-size:.77rem; color:var(--ink-dim);}
+  #season-tag{color:var(--teal); font-weight:600;}
+
+  /* ---------- PACKING ---------- */
+  .packing-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:2rem;}
+  .packing-group h3{font-size:1.02rem; margin-bottom:.8rem;}
+  .packing-group ul{list-style:none; padding:0; display:flex; flex-direction:column; gap:.55rem;}
+  .packing-group li{display:flex; align-items:flex-start; gap:.6rem; font-size:.92rem; color:var(--ink-dim);}
+  .packing-group input[type="checkbox"]{margin-top:.2rem; accent-color:var(--teal);}
+  .packing-group li.checked span{text-decoration:line-through; color:var(--line);}
+
+  /* ---------- NOTES ---------- */
+  .notes-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); border-top:1px solid var(--line);}
+  .note{padding:1.6rem 1.6rem 1.6rem 0; border-bottom:1px solid var(--line);}
+  .note h3{font-size:1rem; color:var(--teal); margin-bottom:.5rem; font-weight:600;}
+  .note p{color:var(--ink-dim); font-size:.92rem;}
+
+  footer{padding:2.5rem 1.5rem 3rem; text-align:center; color:var(--ink-dim); font-size:.87rem;}
+
+  @media (max-width:820px){
+    .budget-layout{grid-template-columns:1fr;}
+    .summary-card{position:static;}
+  }
+  @media (max-width:560px){
+    .stops li{grid-template-columns:1fr; gap:.25rem;}
+    .timeline{padding-left:2.2rem;}
+    .day-marker{left:-2.2rem; width:1.85rem; height:1.85rem; font-size:.65rem;}
+    .budget-item{grid-template-columns:auto 1fr; row-gap:.4rem;}
+    .budget-item .amount-wrap{grid-column:2; justify-self:start;}
+    .budget-item .mode-tag{grid-column:2; justify-self:start;}
+    .budget-item .row-subtotal{grid-column:2; justify-self:start; text-align:left;}
+    .season-meta{gap:1.1rem;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-inner{animation:none; opacity:1;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="#itinerario">Itinerario</a>
+  <a href="#temporada">Temporada</a>
+  <a href="#presupuesto">Presupuesto</a>
+  <a href="#empaque">Empaque</a>
+  <a href="#info">Info práctica</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="kicker">Viaje de amigos · República Dominicana</p>
+    <h1>Un viaje orgánico <em>con gente orgánica</em></h1>
+    <p class="hero-sub">Nueve días: montaña e interior, un río escondido, costa norte y cierre de playa en resort. Elijan temporada, ajusten el número de personas y el presupuesto se recalcula solo.</p>
+    <ol class="route">
+      <li>STI</li><li>Jarabacoa</li><li>Salcedo</li><li>Puerto Plata</li><li>Punta Cana</li><li>PUJ</li>
+    </ol>
+    <svg class="wave" viewBox="0 0 720 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 20 C 60 0, 120 40, 180 20 S 300 0, 360 20 S 480 40, 540 20 S 660 0, 720 20" fill="none" stroke="#167D6F" stroke-width="2"/>
+    </svg>
+  </div>
+</header>
+
+<section id="itinerario">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>El itinerario, día por día</h2>
+      <p>Los horarios son orientativos. Los precios junto a cada actividad son estimados por persona y se actualizan según la temporada y el número de personas que definan más abajo.</p>
+    </div>
+
+    <div class="timeline">
+
+      <article class="day">
+        <div class="day-marker">01</div>
+        <div class="day-content">
+          <p class="leg-label">Interior</p>
+          <h3>Llegada y aterrizaje suave</h3>
+          <ul class="stops">
+            <li><span class="time">Mañana</span><div><strong>Llegada a Santiago (STI)</strong><p>Vuelen aquí y no a Santo Domingo: ahorra horas de carretera hacia el interior.</p><span class="chip" data-cost-chip="flights"></span></div></li>
+            <li><span class="time">Tarde</span><div><strong>Traslado a Jarabacoa</strong><p>1h20 en carro, check-in en cabañas de montaña para las próximas 3 noches.</p><span class="chip" data-cost-chip="lodging-interior"></span></div></li>
+            <li><span class="time">Noche</span><div><strong>Cena en el pueblo</strong><p>Mofongo y ambiente relajado para arrancar bien el viaje.</p></div></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-marker">02</div>
+        <div class="day-content">
+          <p class="leg-label">Interior</p>
+          <h3>Cascadas y adrenalina</h3>
+          <ul class="stops">
+            <li><span class="time">Mañana</span><div><strong>Salto de Jimenoa</strong><p>Caminata corta hasta una cascada espectacular con puente colgante.</p></div></li>
+            <li><span class="time">Tarde</span><div><strong>Rafting en el Yaque del Norte</strong><p>Rápidos aptos para todo el grupo, sin experiencia previa necesaria.</p><span class="chip" data-cost-chip="rafting"></span></div></li>
+            <li><span class="time">Noche</span><div><strong>Parrillada en la cabaña</strong><p>La noche perfecta para cocinar todos juntos.</p></div></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-marker">03</div>
+        <div class="day-content">
+          <p class="leg-label">Interior</p>
+          <h3>Otra cascada y ruta al norte</h3>
+          <ul class="stops">
+            <li><span class="time">Mañana</span><div><strong>Salto Baiguate o canyoning</strong><p>Otra cascada icónica, o suban el nivel si buscan más adrenalina.</p></div></li>
+            <li><span class="time">Tarde</span><div><strong>Traslado a Moca / Salcedo</strong><p>1.5-2h por carretera de montaña.</p></div></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-marker">04</div>
+        <div class="day-content">
+          <p class="leg-label">Interior</p>
+          <h3>El río escondido</h3>
+          <ul class="stops">
+            <li><span class="time">Día completo</span><div><strong>Excursión a Río Partido</strong><p>Caminata hasta pozas turquesa, almuerzo típico incluido. Reserven guía local con antelación, los cupos son limitados.</p><span class="chip" data-cost-chip="riopartido"></span></div></li>
+            <li><span class="time">Tarde/noche</span><div><strong>Traslado a Puerto Plata</strong><p>Aproximadamente 1h30 más, check-in para 2 noches.</p><span class="chip" data-cost-chip="lodging-norte"></span></div></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-marker">05</div>
+        <div class="day-content">
+          <p class="leg-label">Norte</p>
+          <h3>Saltos y playa</h3>
+          <ul class="stops">
+            <li><span class="time">Mañana</span><div><strong>27 Charcos de Damajagua</strong><p>Toboganes y saltos naturales entre cascadas, imperdible para el grupo.</p><span class="chip" data-cost-chip="damajagua"></span></div></li>
+            <li><span class="time">Tarde</span><div><strong>Playa en Sosúa o Cabarete</strong><p>Almuerzo frente al mar y tarde de playa tranquila.</p></div></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-marker">06</div>
+        <div class="day-content">
+          <p class="leg-label">Norte</p>
+          <h3>Panorámicas y última noche del norte</h3>
+          <ul class="stops">
+            <li><span class="time">Mañana</span><div><strong>Teleférico y Fuerte San Felipe</strong><p>Vista completa de Puerto Plata desde el Pico Isabel de Torres.</p></div></li>
+            <li><span class="time">Tarde</span><div><strong>Malecón y Ocean World</strong><p>Opcional: delfines y leones marinos, o simplemente más playa.</p><span class="chip" data-cost-chip="oceanworld"></span></div></li>
+            <li><span class="time">Noche</span><div><strong>Fiesta en Cabarete</strong><p>Buena vida nocturna frente al mar para cerrar el norte.</p></div></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-marker">07</div>
+        <div class="day-content">
+          <p class="leg-label">Punta Cana</p>
+          <h3>El tramo largo</h3>
+          <ul class="stops">
+            <li><span class="time">Día completo</span><div><strong>Traslado a Punta Cana</strong><p>4-5h de carretera, salgan temprano. Si quieren estirar las piernas, paren en Santo Domingo. Opcional: shuttle o vuelo interno.</p><span class="chip" data-cost-chip="transfer-pc"></span></div></li>
+            <li><span class="time">Tarde/noche</span><div><strong>Check-in en el resort</strong><p>A descansar del camino, primera noche all-inclusive.</p><span class="chip" data-cost-chip="resort"></span></div></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-marker">08</div>
+        <div class="day-content">
+          <p class="leg-label">Punta Cana</p>
+          <h3>Modo resort</h3>
+          <ul class="stops">
+            <li><span class="time">Día completo</span><div><strong>Playa, piscina y deportes acuáticos</strong><p>Todo incluido, cero logística.</p></div></li>
+            <li><span class="time">Alternativa</span><div><strong>Isla Saona</strong><p>Si prefieren una excursión en vez de quedarse en el resort.</p><span class="chip" data-cost-chip="saona"></span></div></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="day">
+        <div class="day-marker">09</div>
+        <div class="day-content">
+          <p class="leg-label">Punta Cana</p>
+          <h3>Última mañana y vuelta a casa</h3>
+          <ul class="stops">
+            <li><span class="time">Mañana</span><div><strong>Última mañana de playa</strong><p>Aprovechen el resort antes del check-out.</p></div></li>
+            <li><span class="time">Tarde</span><div><strong>Vuelo desde Punta Cana (PUJ)</strong><p>El aeropuerto está a 20-30 min de la mayoría de resorts.</p></div></li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="temporada" class="section-alt">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>¿Cuándo ir?</h2>
+      <p>Si pueden elegir fecha, <strong>febrero o marzo</strong> es el punto dulce: buen clima de temporada seca sin pagar las tarifas de Navidad y Año Nuevo. Comparen las tres ventanas y vean cómo cambia el plan.</p>
+    </div>
+
+    <div class="season-toggle">
+      <button class="season-btn" data-season="seca">Temporada seca · recomendada</button>
+      <button class="season-btn" data-season="transicion">Transición</button>
+      <button class="season-btn" data-season="humeda">Húmeda / huracanes</button>
+    </div>
+
+    <div class="season-panel" data-panel="seca">
+      <div class="season-card">
+        <div class="season-meta">
+          <div><span class="val">Dic - Abr</span><span class="lbl">meses</span></div>
+          <div><span class="val">24-32°C</span><span class="lbl">temperatura</span></div>
+          <div><span class="val">Alta</span><span class="lbl">afluencia y precios</span></div>
+        </div>
+        <p>Cielos despejados, lluvias cortas y poco frecuentes, la ventana más confiable para excursiones de río y montaña. También es la más cara y concurrida del año, sobre todo Navidad, Año Nuevo y Semana Santa.</p>
+        <h4>Cómo cambia el itinerario</h4>
+        <ul>
+          <li>El plan funciona tal cual está diseñado, sin ajustes.</li>
+          <li>Las noches en Jarabacoa pueden bajar a 15-18°C: lleven algo abrigado.</li>
+          <li>Reserven resort y excursiones con 2-3 meses de anticipación, sobre todo en diciembre-enero.</li>
+        </ul>
+        <h4>Cómo cambia el presupuesto</h4>
+        <ul>
+          <li>Vuelos y resort suben respecto al resto del año, es la temporada de tarifas más altas.</li>
+          <li>Dentro de esta ventana, febrero-marzo suele ser algo más barato que diciembre-enero.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="season-panel" data-panel="transicion">
+      <div class="season-card">
+        <div class="season-meta">
+          <div><span class="val">May y Nov</span><span class="lbl">meses</span></div>
+          <div><span class="val">25-31°C</span><span class="lbl">temperatura</span></div>
+          <div><span class="val">Media</span><span class="lbl">afluencia y precios</span></div>
+        </div>
+        <p>El punto intermedio: menos gente, mejores precios, y un clima todavía bastante estable con algún chubasco corto de tarde. Buena opción si quieren ahorrar sin meterse de lleno en temporada de lluvias.</p>
+        <h4>Cómo cambia el itinerario</h4>
+        <ul>
+          <li>El itinerario no necesita cambios de fondo.</li>
+          <li>Programen las actividades de río (Damajagua, Río Partido, rafting) en la mañana, antes de que caiga el aguacero de la tarde.</li>
+          <li>Buena época para reservar con menos antelación.</li>
+        </ul>
+        <h4>Cómo cambia el presupuesto</h4>
+        <ul>
+          <li>Vuelos y resort bajan frente a temporada alta, sin llegar a los precios más bajos del año.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="season-panel" data-panel="humeda">
+      <div class="season-card">
+        <div class="season-meta">
+          <div><span class="val">Jun - Nov</span><span class="lbl">meses, pico ago-oct</span></div>
+          <div><span class="val">25-31°C</span><span class="lbl">temperatura</span></div>
+          <div><span class="val">Baja</span><span class="lbl">afluencia y precios</span></div>
+        </div>
+        <p>Más humedad y lluvias más largas, con riesgo real aunque estadísticamente bajo de tormentas o huracanes, sobre todo entre agosto y octubre. A cambio, son los precios más bajos del año y playas y excursiones con mucha menos gente.</p>
+        <h4>Cómo cambia el itinerario</h4>
+        <ul>
+          <li>Agreguen un día de colchón cerca del tramo Puerto Plata → Punta Cana por si hay que reprogramar por clima.</li>
+          <li>Las excursiones de río pueden cerrarse por crecidas tras lluvia fuerte: resérvenlas con política de cambio de fecha flexible.</li>
+          <li>Consideren invertir el orden del viaje, empezando por Punta Cana, y dejar el interior para cuando el pronóstico esté más claro.</li>
+          <li>Contraten seguro de viaje con cobertura de cancelación por clima.</li>
+        </ul>
+        <h4>Cómo cambia el presupuesto</h4>
+        <ul>
+          <li>Vuelos y resort caen notablemente frente a temporada alta, con frecuencia a mitad de precio en septiembre-octubre.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="season-note">Elijan una temporada arriba: los precios de vuelo y resort de la calculadora de presupuesto se ajustan solos según lo que seleccionen.</p>
+  </div>
+</section>
+
+<section id="presupuesto">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>Calculadora de presupuesto</h2>
+      <p>Cambien el precio de cualquier actividad y va a reflejarse al instante en su subtotal, en el total por categoría y en el total del grupo. Desmarquen lo que no van a hacer y ajusten el número de personas cuando quieran. Todo en dólares (USD) y son estimados: confirmen con cada operador antes de reservar.</p>
+    </div>
+
+    <div class="people-control">
+      <label for="people-input">¿Cuántos son?</label>
+      <input type="number" id="people-input" min="1" max="30" value="6">
+      <span class="hint">personas en el viaje</span>
+    </div>
+
+    <div class="budget-layout">
+      <div id="budget-categories"></div>
+
+      <aside class="summary-card">
+        <h3>Resumen del grupo</h3>
+        <div class="summary-total">
+          <div class="amount" id="total-per-person">$0</div>
+          <div class="label">por persona</div>
+        </div>
+        <div class="summary-group">
+          Total del grupo: <strong id="total-group">$0</strong>
+        </div>
+        <div class="bars" id="category-bars"></div>
+        <p class="summary-note">Temporada seleccionada: <span id="season-tag">Temporada seca</span>. 1 USD ≈ 59-60 DOP, pero el tipo de cambio varía; revisen la tasa del día antes de cambiar efectivo.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section id="empaque" class="section-alt">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>Qué llevar</h2>
+      <p>Marquen lo que ya tienen empacado. Piensen en montaña fría de noche y calor húmedo de día, todo en el mismo viaje.</p>
+    </div>
+
+    <div class="packing-grid">
+      <div class="packing-group">
+        <h3>Documentos</h3>
+        <ul>
+          <li><input type="checkbox"><span>Pasaporte vigente (mínimo 6 meses)</span></li>
+          <li><input type="checkbox"><span>Formulario de entrada E-Ticket (online, antes de volar)</span></li>
+          <li><input type="checkbox"><span>Seguro de viaje</span></li>
+          <li><input type="checkbox"><span>Reservas y confirmaciones impresas o en el celular</span></li>
+          <li><input type="checkbox"><span>Tarjeta de crédito y algo de efectivo en USD</span></li>
+        </ul>
+      </div>
+      <div class="packing-group">
+        <h3>Ropa</h3>
+        <ul>
+          <li><input type="checkbox"><span>Traje de baño (más de uno)</span></li>
+          <li><input type="checkbox"><span>Ropa ligera y de secado rápido</span></li>
+          <li><input type="checkbox"><span>Algo abrigado para las noches en Jarabacoa</span></li>
+          <li><input type="checkbox"><span>Ropa para la excursión de río (que no les importe mojar)</span></li>
+          <li><input type="checkbox"><span>Algo elegante casual para la noche en el resort</span></li>
+        </ul>
+      </div>
+      <div class="packing-group">
+        <h3>Calzado</h3>
+        <ul>
+          <li><input type="checkbox"><span>Zapatos cerrados para hiking</span></li>
+          <li><input type="checkbox"><span>Sandalias que se puedan mojar (río y playa)</span></li>
+          <li><input type="checkbox"><span>Chanclas para el resort</span></li>
+        </ul>
+      </div>
+      <div class="packing-group">
+        <h3>Salud y protección</h3>
+        <ul>
+          <li><input type="checkbox"><span>Protector solar (resistente al agua)</span></li>
+          <li><input type="checkbox"><span>Repelente de mosquitos</span></li>
+          <li><input type="checkbox"><span>Botiquín básico: analgésico, antidiarreico, curitas</span></li>
+          <li><input type="checkbox"><span>Botella de agua reutilizable</span></li>
+        </ul>
+      </div>
+      <div class="packing-group">
+        <h3>Electrónica</h3>
+        <ul>
+          <li><input type="checkbox"><span>Cargador portátil (power bank)</span></li>
+          <li><input type="checkbox"><span>Funda impermeable para el celular</span></li>
+          <li><input type="checkbox"><span>Cámara o GoPro para las excursiones de río</span></li>
+        </ul>
+      </div>
+      <div class="packing-group">
+        <h3>Extras</h3>
+        <ul>
+          <li><input type="checkbox"><span>Mochila pequeña para excursiones de día</span></li>
+          <li><input type="checkbox"><span>Bolsa impermeable para ropa mojada</span></li>
+          <li><input type="checkbox"><span>Snacks para las horas de carretera</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="info">
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>Info práctica antes de reservar</h2>
+      <p>Lo que conviene tener resuelto antes de comprar vuelos.</p>
+    </div>
+    <div class="notes-grid">
+      <div class="note">
+        <h3>Vuelos</h3>
+        <p>Busquen un vuelo open-jaw: entrada por Santiago (STI) y salida por Punta Cana (PUJ). Ahorra horas de carretera y no hay que volver sobre sus pasos.</p>
+      </div>
+      <div class="note">
+        <h3>Transporte</h3>
+        <p>Renten una o dos SUV, o una van con chofer si son muchos. Las carreteras de montaña se manejan bien en carro normal, pero una 4x4 da más tranquilidad.</p>
+      </div>
+      <div class="note">
+        <h3>El tramo largo</h3>
+        <p>El día 7 (Puerto Plata a Punta Cana) es el más pesado. Si no quieren tanta carretera, coticen un vuelo interno o un shuttle turístico para el grupo.</p>
+      </div>
+      <div class="note">
+        <h3>Hospedaje</h3>
+        <p>Cabañas o Airbnb grupal en Jarabacoa y el norte. Resort all-inclusive en Punta Cana para cerrar con la menor logística posible.</p>
+      </div>
+      <div class="note">
+        <h3>Documentos</h3>
+        <p>Pasaporte con al menos 6 meses de vigencia y el formulario de entrada digital (E-Ticket) antes de volar. No se necesita visa para la mayoría de nacionalidades de la región para estadías cortas; confirmen su caso puntual.</p>
+      </div>
+      <div class="note">
+        <h3>Moneda y pagos</h3>
+        <p>El peso dominicano (DOP) es la moneda oficial. Los resorts y restaurantes turísticos aceptan tarjeta y dólares, pero lleven efectivo en pesos para excursiones rurales, propinas y zonas del interior.</p>
+      </div>
+      <div class="note">
+        <h3>Salud y clima</h3>
+        <p>Repelente y protector solar todos los días, agua embotellada en zonas rurales. Revisen la sección "¿Cuándo ir?" arriba para más detalle sobre lluvias y huracanes según la fecha.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Ajusten fechas, hoteles, precios y actividades según lo que decidan. Buen viaje.</p>
+</footer>
+
+<script>
+(function(){
+  var budgetItems = [
+    { id:'flights', category:'Vuelos', label:'Vuelo internacional ida y vuelta', note:'Por persona, se ajusta según la temporada elegida arriba', mode:'person', base:480, amount:480, seasonal:true, included:true },
+
+    { id:'lodging-interior', category:'Alojamiento', label:'Cabañas en Jarabacoa (3 noches)', note:'Costo total de la cabaña, se reparte entre el grupo', mode:'total', base:450, amount:450, seasonal:false, included:true },
+    { id:'lodging-norte', category:'Alojamiento', label:'Airbnb en Puerto Plata / Cabarete (2 noches)', note:'Costo total, se reparte entre el grupo', mode:'total', base:380, amount:380, seasonal:false, included:true },
+    { id:'resort', category:'Alojamiento', label:'Resort all-inclusive en Punta Cana (3 noches)', note:'Por persona, se ajusta según la temporada elegida arriba', mode:'person', base:390, amount:390, seasonal:true, included:true },
+
+    { id:'car', category:'Transporte', label:'Renta de SUV o van + gasolina (todo el viaje)', note:'Costo total, se reparte entre el grupo', mode:'total', base:520, amount:520, seasonal:false, included:true },
+    { id:'transfer-pc', category:'Transporte', label:'Shuttle o vuelo interno Puerto Plata → Punta Cana', note:'Opcional, por persona, en vez de manejar el día 7', mode:'person', base:60, amount:60, seasonal:false, included:false },
+
+    { id:'rafting', category:'Excursiones', label:'Rafting en el Yaque del Norte', note:'Por persona', mode:'person', base:55, amount:55, seasonal:false, included:true },
+    { id:'damajagua', category:'Excursiones', label:'27 Charcos de Damajagua', note:'Por persona', mode:'person', base:45, amount:45, seasonal:false, included:true },
+    { id:'riopartido', category:'Excursiones', label:'Excursión a Río Partido con almuerzo', note:'Por persona', mode:'person', base:70, amount:70, seasonal:false, included:true },
+    { id:'oceanworld', category:'Excursiones', label:'Ocean World', note:'Opcional, por persona', mode:'person', base:65, amount:65, seasonal:false, included:false },
+    { id:'saona', category:'Excursiones', label:'Excursión a Isla Saona', note:'Opcional, por persona', mode:'person', base:90, amount:90, seasonal:false, included:false },
+
+    { id:'food', category:'Comida', label:'Comidas fuera del hospedaje (días 1 a 6)', note:'Por persona, estimado para todo el tramo del interior y el norte', mode:'person', base:150, amount:150, seasonal:false, included:true },
+
+    { id:'misc', category:'Otros', label:'Propinas, imprevistos y souvenirs', note:'Por persona', mode:'person', base:80, amount:80, seasonal:false, included:true }
+  ];
+
+  var seasonMultipliers = {
+    seca:       { flights:1.25, resort:1.3, label:'Temporada seca' },
+    transicion: { flights:1.0,  resort:1.0, label:'Transición' },
+    humeda:     { flights:0.8,  resort:0.65, label:'Húmeda / huracanes' }
+  };
+  var currentSeason = 'seca';
+
+  var container = document.getElementById('budget-categories');
+  var peopleInput = document.getElementById('people-input');
+  var barsWrap = document.getElementById('category-bars');
+  var totalPerPersonEl = document.getElementById('total-per-person');
+  var totalGroupEl = document.getElementById('total-group');
+  var seasonTagEl = document.getElementById('season-tag');
+
+  function fmt(n){
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  var categories = [];
+  budgetItems.forEach(function(item){
+    if(categories.indexOf(item.category) === -1) categories.push(item.category);
+  });
+
+  categories.forEach(function(cat){
+    var wrap = document.createElement('div');
+    wrap.className = 'budget-category';
+
+    var head = document.createElement('div');
+    head.className = 'budget-category-head';
+    head.innerHTML = '<h3>' + cat + '</h3><span class="subtotal" data-cat-subtotal="' + cat + '"></span>';
+    wrap.appendChild(head);
+
+    budgetItems.filter(function(i){ return i.category === cat; }).forEach(function(item){
+      var row = document.createElement('div');
+      row.className = 'budget-item';
+      row.setAttribute('data-row-id', item.id);
+
+      var modeText = item.mode === 'person' ? 'por persona' : 'total del grupo';
+
+      row.innerHTML =
+        '<input type="checkbox" data-included="' + item.id + '" ' + (item.included ? 'checked' : '') + '>' +
+        '<div class="item-label"><strong>' + item.label + '</strong><span class="note">' + item.note + '</span></div>' +
+        '<div class="amount-wrap"><span>$</span><input type="number" min="0" step="5" data-amount="' + item.id + '" value="' + item.amount + '"></div>' +
+        '<span class="mode-tag">' + modeText + '</span>' +
+        '<span class="row-subtotal" data-row-subtotal="' + item.id + '"></span>';
+
+      wrap.appendChild(row);
+    });
+
+    container.appendChild(wrap);
+  });
+
+  categories.forEach(function(cat){
+    var row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML =
+      '<div class="bar-label"><span>' + cat + '</span><span data-bar-amount="' + cat + '">$0</span></div>' +
+      '<div class="bar-track"><div class="bar-fill" data-bar-fill="' + cat + '" style="width:0%"></div></div>';
+    barsWrap.appendChild(row);
+  });
+
+  function recalc(){
+    var people = parseInt(peopleInput.value, 10);
+    if(!people || people < 1) people = 1;
+
+    var catTotals = {};
+    categories.forEach(function(c){ catTotals[c] = 0; });
+    var grandTotal = 0;
+
+    budgetItems.forEach(function(item){
+      var checkbox = document.querySelector('[data-included="' + item.id + '"]');
+      var amountInput = document.querySelector('[data-amount="' + item.id + '"]');
+      var row = document.querySelector('[data-row-id="' + item.id + '"]');
+
+      var included = checkbox.checked;
+      var amount = parseFloat(amountInput.value) || 0;
+
+      item.included = included;
+      item.amount = amount;
+
+      row.classList.toggle('is-excluded', !included);
+
+      var groupCost = item.mode === 'person' ? amount * people : amount;
+      var perPersonCost = item.mode === 'person' ? amount : amount / people;
+
+      if(included){
+        catTotals[item.category] += groupCost;
+        grandTotal += groupCost;
+      }
+
+      var subtotalEl = document.querySelector('[data-row-subtotal="' + item.id + '"]');
+      if(subtotalEl){
+        subtotalEl.textContent = included ? (fmt(groupCost) + ' total') : 'excluido';
+      }
+
+      var chip = document.querySelector('[data-cost-chip="' + item.id + '"]');
+      if(chip){
+        if(included){
+          chip.textContent = '≈ ' + fmt(perPersonCost) + ' / persona';
+          chip.classList.remove('excluded');
+        } else {
+          chip.textContent = 'no incluido';
+          chip.classList.add('excluded');
+        }
+      }
+    });
+
+    categories.forEach(function(cat){
+      var el = document.querySelector('[data-cat-subtotal="' + cat + '"]');
+      var perPerson = catTotals[cat] / people;
+      el.textContent = fmt(catTotals[cat]) + ' grupo · ' + fmt(perPerson) + ' / persona';
+
+      var barAmountEl = document.querySelector('[data-bar-amount="' + cat + '"]');
+      var barFillEl = document.querySelector('[data-bar-fill="' + cat + '"]');
+      barAmountEl.textContent = fmt(perPerson) + '/persona';
+      var pct = grandTotal > 0 ? (catTotals[cat] / grandTotal * 100) : 0;
+      barFillEl.style.width = pct + '%';
+    });
+
+    totalPerPersonEl.textContent = fmt(grandTotal / people);
+    totalGroupEl.textContent = fmt(grandTotal);
+  }
+
+  function applySeason(key){
+    currentSeason = key;
+    var mult = seasonMultipliers[key];
+
+    document.querySelectorAll('.season-btn').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-season') === key);
+    });
+    document.querySelectorAll('.season-panel').forEach(function(panel){
+      panel.classList.toggle('active', panel.getAttribute('data-panel') === key);
+    });
+
+    budgetItems.forEach(function(item){
+      if(!item.seasonal) return;
+      var factor = item.id === 'flights' ? mult.flights : mult.resort;
+      var newAmount = Math.round(item.base * factor);
+      var amountInput = document.querySelector('[data-amount="' + item.id + '"]');
+      if(amountInput) amountInput.value = newAmount;
+    });
+
+    seasonTagEl.textContent = mult.label;
+    recalc();
+  }
+
+  document.querySelectorAll('.season-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      applySeason(btn.getAttribute('data-season'));
+    });
+  });
+
+  container.addEventListener('input', recalc);
+  container.addEventListener('change', recalc);
+  peopleInput.addEventListener('input', recalc);
+
+  applySeason('seca');
+
+  document.querySelectorAll('.packing-group li').forEach(function(li){
+    var box = li.querySelector('input[type="checkbox"]');
+    box.addEventListener('change', function(){
+      li.classList.toggle('checked', box.checked);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
